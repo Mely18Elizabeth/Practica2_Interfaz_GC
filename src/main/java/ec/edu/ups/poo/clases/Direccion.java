@@ -31,7 +31,7 @@ public class Direccion {
         return ciudad;
     }
 
-    public void setCuenca(String cuenca) {
+    public void setCiudad(String cuenca) {
         ciudad = cuenca;
     }
 
@@ -39,6 +39,6 @@ public class Direccion {
     public String toString() {
         return "callePrincipal= " + callePrincipal +
                 "  calleSecundario= " + calleSecundario  +
-                "  Cuenca= " + ciudad;
+                "  Ciudad= " + ciudad;
     }
 }

@@ -28,9 +28,9 @@ public class ItemSolicitud {
 
     @Override
     public String toString() {
-        return "ItemSolicitud{" +
-                "cantidad=" + cantidad +
-                ", producto=" + producto +
-                '}';
+        return "Items( " +
+                "cantidad= " + cantidad +
+                ", producto= " + producto +
+                ')';
     }
 }

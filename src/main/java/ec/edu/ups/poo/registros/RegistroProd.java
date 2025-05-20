@@ -71,22 +71,32 @@ public class RegistroProd extends Frame {
     }
 
     private void guardarProducto() {
+        String codigo = txtCodigo.getText().trim();
+        String nombre = txtNombre.getText().trim();
+        String descripcion = txtDescripcion.getText().trim();
+
+        double precio = 0.0;
+        double iva = 0.0;
+        double descuento = 0.0;
+
         try {
-            String codigo = txtCodigo.getText();
-            String nombre = txtNombre.getText();
-            String descripcion = txtDescripcion.getText();
-            double precio = Double.parseDouble(txtPrecio.getText().trim());
-            double iva = Double.parseDouble(txtIva.getText().trim());
-            double descuento = Double.parseDouble(txtDescuento.getText().trim());
-
-            ValorProducto valor = new ValorProducto(iva, descuento);
-            Producto producto = new Producto(codigo, nombre, descripcion, precio, valor);
-            productos.add(producto);
-
-            // No limpiar campos según tu pedido
-
-        } catch (NumberFormatException ex) {
-            // Puedes agregar mensaje de error aquí si quieres
+            precio = Double.parseDouble(txtPrecio.getText().trim());
+        } catch (NumberFormatException e) {
         }
+
+        try {
+            iva = Double.parseDouble(txtIva.getText().trim());
+        } catch (NumberFormatException e) {
+        }
+
+        try {
+            descuento = Double.parseDouble(txtDescuento.getText().trim());
+        } catch (NumberFormatException e) {
+        }
+
+        ValorProducto valor = new ValorProducto(iva, descuento);
+        Producto producto = new Producto(codigo, nombre, descripcion, precio, valor);
+        productos.add(producto);
     }
+
 }

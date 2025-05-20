@@ -48,7 +48,7 @@ public class BusqSolic extends Frame {
     }
 
     private void buscarSolicitud() {
-        String criterio = txtBusqueda.getText().trim().toLowerCase();
+        String criterio = txtBusqueda.getText().trim();
         areaResultados.setText("");
 
         if (criterio.isEmpty()) {
@@ -58,15 +58,20 @@ public class BusqSolic extends Frame {
 
         boolean encontrado = false;
         for (Solicitud s : solicitudes) {
-            if (s.getNumero().toLowerCase().contains(criterio) &&
-                    s.getEstado() == Estado.Solicitado) {
+            // Búsqueda exacta por número (ignorando mayúsculas/minúsculas)
+            if (s.getNumero().equalsIgnoreCase(criterio)) {
+                // Si quieres filtrar solo estado "Solicitado" descomenta la siguiente línea
+                // if (s.getEstado() == Estado.Solicitado) {
                 areaResultados.append(s.toString() + "\n\n");
                 encontrado = true;
+                // break; // Opcional: si sólo quieres un resultado, descomenta para salir al primero
+                // }
             }
         }
 
         if (!encontrado) {
-            areaResultados.setText("No se encontraron solicitudes con estado 'Solicitado' para: " + criterio);
+            areaResultados.setText("No se encontró ninguna solicitud con ese número.");
         }
     }
+
 }

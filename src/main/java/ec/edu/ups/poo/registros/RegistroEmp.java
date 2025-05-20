@@ -21,7 +21,7 @@ public class RegistroEmp extends Frame {
     public RegistroEmp(List<Empleado> empleados) {
         this.empleados = empleados;  // Asignar la lista pasada, no crear una nueva
 
-        setTitle("RegistroEmp de Empleados");
+        setTitle("Registro de Empleados");
         setSize(400, 650);
         setLocationRelativeTo(null);
         setLayout(new GridLayout(13, 2, 5, 5)); // Ajuste para nuevo campo ID
@@ -64,7 +64,7 @@ public class RegistroEmp extends Frame {
         btnGuardar = new Button("Guardar");
         add(btnGuardar);
 
-        btnListar = new Button("ListaEmp");
+        btnListar = new Button("Lista");
         add(btnListar);
 
         btnBuscar = new Button("Buscar");
@@ -112,15 +112,5 @@ public class RegistroEmp extends Frame {
         Empleado empleado = new Empleado(id, nombre, apellido, correo, Collections.singletonList(direccion), departamento);
 
         empleados.add(empleado);
-
-        // Limpiar campos después de guardar (opcional)
-        txtId.setText("");
-        txtNombre.setText("");
-        txtApellido.setText("");
-        txtCorreo.setText("");
-        chDepartamento.select(0);
-        txtCallePrincipal.setText("");
-        txtCalleSecundaria.setText("");
-        txtCiudad.setText("");
     }
 }

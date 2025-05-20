@@ -24,10 +24,10 @@ public class Empleado extends Persona {
     @Override
     public String toString() {
         return "ID= " + getId() +
-                "  Nombre= " + getNombre()  +
-                "  Apellido=" + getApellido()  +
-                "  correo='" + getCorreo() +
-                "  Direccion=" + getDireccion() +
-                "  Departamento=" + departamento;
+                "  Nombre: " + getNombre()  +
+                "  Apellido:" + getApellido()  +
+                "  Correo:'" + getCorreo() +
+                "  Direccion:" + getDireccion() +
+                "  Departamento:" + departamento;
     }
 }

@@ -6,21 +6,19 @@ import ec.edu.ups.poo.clases.Proveedor;
 import ec.edu.ups.poo.registros.RegistroEmp;
 import ec.edu.ups.poo.registros.RegistroProd;
 import ec.edu.ups.poo.registros.RegistroProv;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.List;
+import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class VentanaGes extends Frame {
 
-    private Panel panelGeneral, panelPrincipalSuperior, panelPrincipalInter, panelPrincipalInferior;
-    private Button BtnProvedor, BtnEmpleado, BtnProducto, BtnSolicitud;
+    private Panel panelGeneral, panelSuperior, panelCentral;
+    private Button BtnProvedor, BtnEmpleado, BtnProducto, BtnSolicitud, BtnSalir;
     private Label Titulo1;
 
-    private List<Empleado> empleados; // Usando List
+    private List<Empleado> empleados;
     private List<Producto> productos;
     private List<Proveedor> proveedores;
 
@@ -36,57 +34,53 @@ public class VentanaGes extends Frame {
 
         panelGeneral = new Panel(new BorderLayout());
 
-        panelPrincipalSuperior = new Panel(new FlowLayout(FlowLayout.CENTER));
+        panelSuperior = new Panel(new FlowLayout(FlowLayout.CENTER));
         Titulo1 = new Label("Gestión de Compras");
         Titulo1.setFont(new Font("Arial", Font.BOLD, 18));
-        panelPrincipalSuperior.add(Titulo1);
+        panelSuperior.add(Titulo1);
 
-        panelPrincipalInter = new Panel(new FlowLayout(FlowLayout.CENTER, 50, 20));
+        panelCentral = new Panel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 15, 10, 15);
+
         BtnEmpleado = new Button("Empleado");
         BtnProducto = new Button("Producto");
         BtnSolicitud = new Button("Solicitud");
         BtnProvedor = new Button("Proveedor");
+        BtnSalir = new Button("Salir");
 
-        Dimension botonGrande = new Dimension(150, 50);
+        Dimension btnSize = new Dimension(90, 50);
+        for (Button b : new Button[]{BtnEmpleado, BtnProducto, BtnSolicitud, BtnProvedor, BtnSalir}) {
+            b.setPreferredSize(btnSize);
+        }
 
-        BtnEmpleado.setPreferredSize(botonGrande);
-        BtnProducto.setPreferredSize(botonGrande);
-        BtnSolicitud.setPreferredSize(botonGrande);
-        BtnProvedor.setPreferredSize(botonGrande);
+        gbc.gridy = 0;
+        gbc.gridx = 0;
+        gbc.gridwidth = 1;
+        panelCentral.add(BtnEmpleado, gbc);
 
-        BtnEmpleado.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new RegistroEmp(empleados);  // PASA la lista compartida
-            }
-        });
+        gbc.gridx = 1;
+        panelCentral.add(BtnProducto, gbc);
 
-        BtnProvedor.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new RegistroProv(proveedores); // abrir ventana de proveedores
-            }
-        });
+        gbc.gridx = 2;
+        panelCentral.add(BtnSolicitud, gbc);
 
-        BtnProducto.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new RegistroProd(productos);
-            }
-        });
+        gbc.gridy = 1;
+        gbc.gridx = 0;
+        gbc.gridwidth = 2;
+        panelCentral.add(BtnProvedor, gbc);
 
-        panelPrincipalInter.add(BtnEmpleado);
-        panelPrincipalInter.add(BtnProducto);
+        gbc.gridx = 1;
+        gbc.gridwidth = 2;
+        panelCentral.add(BtnSalir, gbc);
 
-        // Panel inferior con dos botones
-        panelPrincipalInferior = new Panel(new FlowLayout(FlowLayout.CENTER, 50, 20));
-        panelPrincipalInferior.add(BtnSolicitud);
-        panelPrincipalInferior.add(BtnProvedor);
+        BtnEmpleado.addActionListener(e -> new RegistroEmp(empleados));
+        BtnProducto.addActionListener(e -> new RegistroProd(productos));
+        BtnProvedor.addActionListener(e -> new RegistroProv(proveedores));
+        BtnSalir.addActionListener(e -> dispose());
 
-        panelGeneral.add(panelPrincipalSuperior, BorderLayout.NORTH);
-        panelGeneral.add(panelPrincipalInter, BorderLayout.CENTER);
-        panelGeneral.add(panelPrincipalInferior, BorderLayout.SOUTH);
-
+        panelGeneral.add(panelSuperior, BorderLayout.NORTH);
+        panelGeneral.add(panelCentral, BorderLayout.CENTER);
         add(panelGeneral);
 
         setVisible(true);
@@ -107,28 +101,20 @@ public class VentanaGes extends Frame {
         this.panelGeneral = panelGeneral;
     }
 
-    public Panel getPanelPrincipalSuperior() {
-        return panelPrincipalSuperior;
+    public Panel getPanelSuperior() {
+        return panelSuperior;
     }
 
-    public void setPanelPrincipalSuperior(Panel panelPrincipalSuperior) {
-        this.panelPrincipalSuperior = panelPrincipalSuperior;
+    public void setPanelSuperior(Panel panelSuperior) {
+        this.panelSuperior = panelSuperior;
     }
 
-    public Panel getPanelPrincipalInter() {
-        return panelPrincipalInter;
+    public Panel getPanelCentral() {
+        return panelCentral;
     }
 
-    public void setPanelPrincipalInter(Panel panelPrincipalInter) {
-        this.panelPrincipalInter = panelPrincipalInter;
-    }
-
-    public Panel getPanelPrincipalInferior() {
-        return panelPrincipalInferior;
-    }
-
-    public void setPanelPrincipalInferior(Panel panelPrincipalInferior) {
-        this.panelPrincipalInferior = panelPrincipalInferior;
+    public void setPanelCentral(Panel panelCentral) {
+        this.panelCentral = panelCentral;
     }
 
     public Button getBtnProvedor() {
@@ -161,6 +147,14 @@ public class VentanaGes extends Frame {
 
     public void setBtnSolicitud(Button btnSolicitud) {
         BtnSolicitud = btnSolicitud;
+    }
+
+    public Button getBtnSalir() {
+        return BtnSalir;
+    }
+
+    public void setBtnSalir(Button btnSalir) {
+        BtnSalir = btnSalir;
     }
 
     public Label getTitulo1() {

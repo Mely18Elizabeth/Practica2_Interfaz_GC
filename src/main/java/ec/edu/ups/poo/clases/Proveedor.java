@@ -11,11 +11,11 @@ public class Proveedor extends Persona {
     @Override
     public String toString() {
         return "Proveedor( " +
-                "ID=" + getId() +
-                ", Nombre='" + getNombre() + '\'' +
-                ", Apellido='" + getApellido() + '\'' +
-                ", Email='" + getCorreo() + '\'' +
-                ", Direccion=" + getDireccion() +
-                '}';
+                "ID= " + getId() +
+                ", Nombre= " + getNombre()  +
+                ", Apellido= " + getApellido()  +
+                ", Email= " + getCorreo() +
+                ", Direccion= " + getDireccion() +
+                ')';
     }
 }

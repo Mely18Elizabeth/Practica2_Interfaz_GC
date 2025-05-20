@@ -1,5 +1,7 @@
 package ec.edu.ups.poo.clases;
 import ec.edu.ups.poo.Enums.*;
+
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -9,7 +11,12 @@ public class Solicitud {
     private Estado estado;
     private List<ItemSolicitud> items;
 
-    public Solicitud(String numero, GregorianCalendar fechaInicio, Estado estado) {}
+    public Solicitud(String numero, GregorianCalendar fechaInicio, Estado estado) {
+        this.numero = numero;
+        this.fechaInicio = fechaInicio;
+        this.estado = estado;
+        this.items = new ArrayList<>(); // Inicializa lista
+    }
 
     public String getNumero() {
         return numero;
@@ -45,11 +52,23 @@ public class Solicitud {
 
     @Override
     public String toString() {
-        return "Solicitud{" +
-                "numero='" + numero + '\'' +
-                ", fechaInicio=" + fechaInicio +
+        // Formatear la fecha legible
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
+        String fechaStr = (fechaInicio != null) ? sdf.format(fechaInicio.getTime()) : "Sin fecha";
+
+        // Construir string de items separados por comas
+        StringBuilder itemsStr = new StringBuilder();
+        for (int i = 0; i < items.size(); i++) {
+            itemsStr.append(items.get(i).toString());
+            if (i < items.size() - 1) {
+                itemsStr.append(", ");
+            }
+        }
+
+        return "Solicitud[numero=" + numero +
+                ", fechaInicio=" + fechaStr +
                 ", estado=" + estado +
-                ", items=" + items +
-                '}';
+                ", items=[" + itemsStr.toString() + "]]";
     }
+
 }

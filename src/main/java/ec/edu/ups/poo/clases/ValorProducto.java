@@ -1,8 +1,6 @@
 package ec.edu.ups.poo.clases;
 
-import java.io.Serializable;
-
-public class ValorProducto  implements Serializable {
+public class ValorProducto   {
     private double iva;
     private double descuento;
 
@@ -29,9 +27,9 @@ public class ValorProducto  implements Serializable {
 
     @Override
     public String toString() {
-        return "ValorProducto{" +
-                "iva=" + iva +
-                ", descuento=" + descuento +
-                '}';
+        return "ValorProducto( " +
+                "iva= " + iva +
+                ", descuento= " + descuento +
+                ')';
     }
 }

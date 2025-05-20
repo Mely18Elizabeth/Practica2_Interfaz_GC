@@ -1,11 +1,7 @@
 package ec.edu.ups.poo;
 
-import ec.edu.ups.poo.clases.Empleado;
-import ec.edu.ups.poo.clases.Producto;
-import ec.edu.ups.poo.clases.Proveedor;
-import ec.edu.ups.poo.registros.RegistroEmp;
-import ec.edu.ups.poo.registros.RegistroProd;
-import ec.edu.ups.poo.registros.RegistroProv;
+import ec.edu.ups.poo.clases.*;
+import ec.edu.ups.poo.registros.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.*;
@@ -20,14 +16,16 @@ public class VentanaGes extends Frame {
     private Button BtnProvedor, BtnEmpleado, BtnProducto, BtnSolicitud;
     private Label Titulo1;
 
-    private List<Empleado> empleados; // Usando List
+    private List<Empleado> empleados;
     private List<Producto> productos;
     private List<Proveedor> proveedores;
+    private List<Solicitud> solicitudes;
 
     public VentanaGes() {
         empleados = new ArrayList<>();
         productos = new ArrayList<>();
         proveedores = new ArrayList<>();
+        solicitudes = new ArrayList<>();
 
         setTitle("Pantalla Principal");
         setSize(500, 300);
@@ -57,14 +55,14 @@ public class VentanaGes extends Frame {
         BtnEmpleado.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new RegistroEmp(empleados);  // PASA la lista compartida
+                new RegistroEmp(empleados);
             }
         });
 
         BtnProvedor.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new RegistroProv(proveedores); // abrir ventana de proveedores
+                new RegistroProv(proveedores);
             }
         });
 
@@ -75,10 +73,17 @@ public class VentanaGes extends Frame {
             }
         });
 
+        BtnSolicitud.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new RegistroSolic(solicitudes, empleados, productos);
+            }
+        });
+
+
         panelPrincipalInter.add(BtnEmpleado);
         panelPrincipalInter.add(BtnProducto);
 
-        // Panel inferior con dos botones
         panelPrincipalInferior = new Panel(new FlowLayout(FlowLayout.CENTER, 50, 20));
         panelPrincipalInferior.add(BtnSolicitud);
         panelPrincipalInferior.add(BtnProvedor);

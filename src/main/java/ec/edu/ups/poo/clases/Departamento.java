@@ -19,8 +19,8 @@ public class Departamento {
 
     @Override
     public String toString() {
-        return "Departamento{" +
-                "rol=" + rol +
-                '}';
+        return "Departamento( " +
+                "rol= " + rol +
+                ')';
     }
 }

@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class RegistroEmp extends Frame {
-    private List<Empleado> empleados;  // Solo una vez declarada
+    private List<Empleado> empleados;
 
     private TextField txtId, txtNombre, txtApellido, txtCorreo;
     private Choice chDepartamento;
@@ -19,12 +19,12 @@ public class RegistroEmp extends Frame {
     private Button btnGuardar, btnListar, btnBuscar;
 
     public RegistroEmp(List<Empleado> empleados) {
-        this.empleados = empleados;  // Asignar la lista pasada, no crear una nueva
+        this.empleados = empleados;
 
         setTitle("Registro de Empleados");
         setSize(400, 650);
         setLocationRelativeTo(null);
-        setLayout(new GridLayout(13, 2, 5, 5)); // Ajuste para nuevo campo ID
+        setLayout(new GridLayout(13, 2, 5, 5));
 
         add(new Label("ID:"));
         txtId = new TextField();
@@ -88,14 +88,14 @@ public class RegistroEmp extends Frame {
     private void guardarEmpleado() {
         String idTexto = txtId.getText().trim();
         if (idTexto.isEmpty()) {
-            return; // No hace nada si no hay ID
+            return;
         }
 
         int id;
         try {
             id = Integer.parseInt(idTexto);
         } catch (NumberFormatException e) {
-            return; // No hace nada si el ID no es un número válido
+            return;
         }
 
         String nombre = txtNombre.getText();

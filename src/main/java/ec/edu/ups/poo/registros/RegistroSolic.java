@@ -15,7 +15,7 @@ public class RegistroSolic extends Frame {
 
     private TextField txtNumero, txtFecha, txtCantidad;
     private Choice choiceProducto;
-    private Button btnGuardar, btnListar, btnBuscar;
+    private Button btnGuardar, btnListar, btnBuscar, btnCambiarEstado;
     private List<Solicitud> solicitudes;
     private List<Producto> productosDisponibles;
     private Choice choiceEstado;
@@ -72,6 +72,11 @@ public class RegistroSolic extends Frame {
         btnBuscar = new Button("Buscar Solicitud");
         add(btnBuscar);
         btnBuscar.addActionListener(e -> new BusqSolic(solicitudes));
+
+        // Botón para cambiar estado
+        btnCambiarEstado = new Button("Cambiar Estado");
+        add(btnCambiarEstado);
+        btnCambiarEstado.addActionListener(e -> new EstadoSolic(solicitudes));
 
         setVisible(true);
 

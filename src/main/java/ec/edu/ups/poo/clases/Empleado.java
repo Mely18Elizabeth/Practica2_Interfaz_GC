@@ -21,13 +21,13 @@ public class Empleado extends Persona {
         this.departamento = departamento;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return "ID= " + getId() +
                 "  Nombre= " + getNombre()  +
                 "  Apellido=" + getApellido()  +
                 "  correo='" + getCorreo() +
                 "  Direccion=" + getDireccion() +
-                "  Departamento=" + departamento;
+                "  Departamento=" + departamento;*/
     }
 }

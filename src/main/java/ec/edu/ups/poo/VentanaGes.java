@@ -49,11 +49,10 @@ public class VentanaGes extends Frame {
         BtnProvedor = new Button("Proveedor");
         BtnSalir = new Button("Salir");
 
-        Dimension btnSize = new Dimension(90, 50);
+        Dimension btnSize = new Dimension(120, 50);
         for (Button b : new Button[]{BtnEmpleado, BtnProducto, BtnSolicitud, BtnProvedor, BtnSalir}) {
             b.setPreferredSize(btnSize);
         }
-
         gbc.gridy = 0;
         gbc.gridx = 0;
         gbc.gridwidth = 1;

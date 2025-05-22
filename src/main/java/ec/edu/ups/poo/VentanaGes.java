@@ -67,7 +67,7 @@ public class VentanaGes extends Frame {
         gbc.gridy = 1;
         gbc.gridx = 0;
         gbc.gridwidth = 2;
-        panelCentral.add(BtnProvedor, gbc);
+        panelCentral.add(BtnProvedor,              gbc);
 
         gbc.gridx = 1;
         gbc.gridwidth = 2;

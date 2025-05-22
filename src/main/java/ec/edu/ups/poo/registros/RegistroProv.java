@@ -89,10 +89,7 @@ public class RegistroProv extends Frame {
             Proveedor proveedor = new Proveedor(id, nombre, apellido, correo, java.util.Collections.singletonList(direccion));
             proveedores.add(proveedor);
 
-            // No limpiar campos según tu pedido
-
         } catch (NumberFormatException e) {
-            // Puedes mostrar mensaje de error si quieres
         }
     }
 

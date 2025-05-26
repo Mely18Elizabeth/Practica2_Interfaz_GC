@@ -1,34 +1,41 @@
 package ec.edu.ups.poo.opciones;
 
 import ec.edu.ups.poo.clases.Empleado;
-import ec.edu.ups.poo.clases.Direccion;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 
 public class BusqEmpleado extends Frame {
 
     private TextField txtBuscar;
     private Button btnBuscar;
+    private TextArea areaResultados;
     private List<Empleado> empleados;
 
     public BusqEmpleado(List<Empleado> empleados) {
         this.empleados = empleados;
-
+        setBackground(new Color(188, 204, 220));
         setTitle("Buscar Empleado");
-        setSize(350, 150);
-        setLayout(new GridLayout(3, 2, 5, 5));
+        setSize(400, 300);
+        setLayout(new BorderLayout(5, 5));
         setLocationRelativeTo(null);
 
-        add(new Label("Ingrese nombre del empleado:"));
-        txtBuscar = new TextField();
-        add(txtBuscar);
-
+        Panel panelTop = new Panel(new FlowLayout());
+        panelTop.add(new Label("Nombre del empleado:"));
+        txtBuscar = new TextField(20);
+        panelTop.add(txtBuscar);
         btnBuscar = new Button("Buscar");
-        add(btnBuscar);
+        panelTop.add(btnBuscar);
 
-        add(new Label());
+        add(panelTop, BorderLayout.NORTH);
+
+        areaResultados = new TextArea();
+        areaResultados.setEditable(false);
+        add(areaResultados, BorderLayout.CENTER);
+
+        btnBuscar.setBackground(new Color(204, 196, 184));
 
         btnBuscar.addActionListener(e -> buscarEmpleado());
 
@@ -43,74 +50,24 @@ public class BusqEmpleado extends Frame {
     }
 
     private void buscarEmpleado() {
-        String nombreBuscado = txtBuscar.getText().trim();
+        String nombreBuscado = txtBuscar.getText().trim().toLowerCase();
+        areaResultados.setText("");
 
         if (nombreBuscado.isEmpty()) {
-            mostrarDialogo("Ingresa un nombre para buscar.");
+            areaResultados.setText("Ingrese un nombre");
             return;
         }
 
-        Empleado encontrado = null;
+        boolean encontrado = false;
         for (Empleado emp : empleados) {
-            if (emp.getNombre().equalsIgnoreCase(nombreBuscado)) {
-                encontrado = emp;
-                break;
+            if (emp.getNombre().toLowerCase().contains(nombreBuscado)) {
+                areaResultados.append(emp.toString() + "\n\n");
+                encontrado = true;
             }
         }
 
-        if (encontrado != null) {
-            mostrarDatosEmpleado(encontrado);
-        } else {
-            mostrarDialogo("Empleado no encontrado.");
+        if (!encontrado) {
+            areaResultados.setText("No se encontro");
         }
     }
-
-    private void mostrarDatosEmpleado(Empleado empleado) {
-        Dialog dialog = new Dialog(this, "Datos del Empleado", true);
-        dialog.setLayout(new GridLayout(0, 1, 5, 5));
-        dialog.setSize(300, 250);
-        dialog.setLocationRelativeTo(this);
-
-        dialog.add(new Label("ID: " + empleado.getId()));
-        dialog.add(new Label("Nombre: " + empleado.getNombre()));
-        dialog.add(new Label("Apellido: " + empleado.getApellido()));
-        dialog.add(new Label("Correo: " + empleado.getCorreo()));
-        dialog.add(new Label("Departamento: " + empleado.getDepartamento().getRol().name()));
-
-        if (!empleado.getDireccion().isEmpty()) {
-            Direccion dir = empleado.getDireccion().get(0);
-            dialog.add(new Label("Ciudad: " + dir.getCiudad()));
-            dialog.add(new Label("Calle Principal: " + dir.getCallePrincipal()));
-            dialog.add(new Label("Calle Secundaria: " + dir.getCalleSecundario()));
-        }
-
-        dialog.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                dialog.dispose();
-            }
-        });
-
-        dialog.setVisible(true);
-    }
-
-    private void mostrarDialogo(String mensaje) {
-        Dialog dialog = new Dialog(this, "Aviso", true);
-        dialog.setLayout(new FlowLayout());
-        dialog.setSize(250, 100);
-        dialog.setLocationRelativeTo(this);
-
-        dialog.add(new Label(mensaje));
-
-        dialog.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                dialog.dispose();
-            }
-        });
-
-        dialog.setVisible(true);
-    }
-
-
 }

@@ -1,30 +1,26 @@
 package ec.edu.ups.poo.registros;
-
 import ec.edu.ups.poo.Enums.Rol;
-import ec.edu.ups.poo.opciones.BusqEmpleado;
-import ec.edu.ups.poo.opciones.ListaEmp;
+import ec.edu.ups.poo.opciones.*;
 import ec.edu.ups.poo.clases.*;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Collections;
 import java.util.List;
 
 public class RegistroEmp extends Frame {
-    private List<Empleado> empleados;  // Solo una vez declarada
-
+    private List<Empleado> empleados;
     private TextField txtId, txtNombre, txtApellido, txtCorreo;
     private Choice chDepartamento;
     private TextField txtCallePrincipal, txtCalleSecundaria, txtCiudad;
     private Button btnGuardar, btnListar, btnBuscar;
 
     public RegistroEmp(List<Empleado> empleados) {
-        this.empleados = empleados;  // Asignar la lista pasada, no crear una nueva
-
+        this.empleados = empleados;
+        setBackground(new Color(239, 234, 221));
         setTitle("Registro de Empleados");
-        setSize(400, 650);
+        setSize(450, 500);
         setLocationRelativeTo(null);
-        setLayout(new GridLayout(13, 2, 5, 5)); // Ajuste para nuevo campo ID
+        setLayout(new GridLayout(11, 2, 5, 5));
 
         add(new Label("ID:"));
         txtId = new TextField();
@@ -75,6 +71,10 @@ public class RegistroEmp extends Frame {
         btnListar.addActionListener(e -> new ListaEmp(empleados));
         btnBuscar.addActionListener(e -> new BusqEmpleado(empleados));
 
+        btnBuscar.setBackground(new Color(193, 186, 172));
+        btnListar.setBackground(new Color(193, 186, 172));
+        btnGuardar.setBackground(new Color(193, 186, 172));
+
         setVisible(true);
 
         addWindowListener(new WindowAdapter() {
@@ -88,14 +88,14 @@ public class RegistroEmp extends Frame {
     private void guardarEmpleado() {
         String idTexto = txtId.getText().trim();
         if (idTexto.isEmpty()) {
-            return; // No hace nada si no hay ID
+            return;
         }
 
         int id;
         try {
             id = Integer.parseInt(idTexto);
         } catch (NumberFormatException e) {
-            return; // No hace nada si el ID no es un número válido
+            return;
         }
 
         String nombre = txtNombre.getText();

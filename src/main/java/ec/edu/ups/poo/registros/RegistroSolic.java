@@ -1,48 +1,52 @@
 package ec.edu.ups.poo.registros;
 
-import ec.edu.ups.poo.Enums.Estado;
-import ec.edu.ups.poo.clases.ItemSolicitud;
-import ec.edu.ups.poo.clases.Producto;
-import ec.edu.ups.poo.clases.Solicitud;
-import ec.edu.ups.poo.opciones.BusqSolic;
-import ec.edu.ups.poo.opciones.ListaSolic;
-
+import ec.edu.ups.poo.Enums.*;
+import ec.edu.ups.poo.clases.*;
+import ec.edu.ups.poo.opciones.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
 public class RegistroSolic extends Frame {
 
     private TextField txtNumero, txtFecha, txtCantidad;
-    private Choice choiceProducto;
-    private Button btnGuardar, btnListar, btnBuscar;
+    private Choice choiceProducto, choiceEstado;
+    private Button btnGuardar, btnListar, btnBuscar, btnCambiarEstado, btnCalcular;
     private List<Solicitud> solicitudes;
     private List<Producto> productosDisponibles;
 
-    public RegistroSolic(List<Producto> productos) {
+    public RegistroSolic(List<Solicitud> solicitudes, List<Empleado> empleados, List<Producto> productos) {
         this.productosDisponibles = productos;
-        this.solicitudes = new ArrayList<>();
+        this.solicitudes = solicitudes;
 
+        setBackground(new Color(239, 234, 221));
         setTitle("Registro de Solicitudes");
-        setSize(400, 350);
-        setLayout(new GridLayout(6, 2, 5, 5));
+        setSize(420, 500);
         setLocationRelativeTo(null);
+        setLayout(new GridLayout(9, 2, 5, 5));
 
         add(new Label("Número de Solicitud:"));
         txtNumero = new TextField();
         add(txtNumero);
 
-        add(new Label("Fecha (auto):"));
-        txtFecha = new TextField(new GregorianCalendar().getTime().toString());
-        txtFecha.setEditable(false);
+        add(new Label("Fecha (dd/MM/yyyy):"));
+        txtFecha = new TextField();
         add(txtFecha);
+
+        add(new Label("Estado:"));
+        choiceEstado = new Choice();
+        for (Estado e : Estado.values()) {
+            choiceEstado.add(e.name());
+        }
+        add(choiceEstado);
 
         add(new Label("Producto:"));
         choiceProducto = new Choice();
         for (Producto p : productosDisponibles) {
-            choiceProducto.add(p.getCodigo() + " - " + p.getNombre());
+            choiceProducto.add(p.getNombre());
         }
         add(choiceProducto);
 
@@ -50,20 +54,35 @@ public class RegistroSolic extends Frame {
         txtCantidad = new TextField();
         add(txtCantidad);
 
-        btnGuardar = new Button("Guardar Solicitud");
+        btnGuardar = new Button("Guardar");
         add(btnGuardar);
-        btnGuardar.addActionListener(e -> guardarSolicitud());
 
-        btnListar = new Button("Listar Solicitudes");
+        btnListar = new Button("Listar");
         add(btnListar);
-        btnListar.addActionListener(e -> new ListaSolic(solicitudes));
 
-        btnBuscar = new Button("Buscar Solicitud");
+        btnBuscar = new Button("Buscar");
         add(btnBuscar);
+
+        btnCambiarEstado = new Button("Cambiar Estado");
+        add(btnCambiarEstado);
+
+        btnCalcular = new Button("Calcular Total");
+        add(btnCalcular);
+
+        Color colorBoton = new Color(193, 186, 172);
+        btnGuardar.setBackground(colorBoton);
+        btnListar.setBackground(colorBoton);
+        btnBuscar.setBackground(colorBoton);
+        btnCambiarEstado.setBackground(colorBoton);
+        btnCalcular.setBackground(colorBoton);
+
+        btnGuardar.addActionListener(e -> guardarSolicitud());
+        btnListar.addActionListener(e -> new ListaSolic(solicitudes));
         btnBuscar.addActionListener(e -> new BusqSolic(solicitudes));
+        btnCambiarEstado.addActionListener(e -> new EstadoSolic(solicitudes));
+        btnCalcular.addActionListener(e -> calcularTotal());
 
         setVisible(true);
-
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 dispose();
@@ -74,44 +93,86 @@ public class RegistroSolic extends Frame {
     private void guardarSolicitud() {
         String numero = txtNumero.getText().trim();
         String cantidadStr = txtCantidad.getText().trim();
+        String fechaStr = txtFecha.getText().trim();
 
-        if (numero.isEmpty() || cantidadStr.isEmpty()) {
-            showMessage("Por favor complete todos los campos.");
+        if (numero.isEmpty() || cantidadStr.isEmpty() || fechaStr.isEmpty()) {
+            return;
+        }
+
+        GregorianCalendar fecha = new GregorianCalendar();
+        try {
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+            Date fechaDate = formatoFecha.parse(fechaStr);
+            fecha.setTime(fechaDate);
+        } catch (ParseException ex) {
             return;
         }
 
         try {
             double cantidad = Double.parseDouble(cantidadStr);
             int selectedIndex = choiceProducto.getSelectedIndex();
-            Producto producto = productosDisponibles.get(selectedIndex);
+            if (selectedIndex < 0 || selectedIndex >= productosDisponibles.size()) {
+                return;
+            }
 
+            Producto producto = productosDisponibles.get(selectedIndex);
             ItemSolicitud item = new ItemSolicitud(cantidad, producto);
             List<ItemSolicitud> items = new ArrayList<>();
             items.add(item);
 
-            Solicitud solicitud = new Solicitud(numero, new GregorianCalendar(), Estado.Solicitado);
+            Estado estado = Estado.valueOf(choiceEstado.getSelectedItem());
+            Solicitud solicitud = new Solicitud(numero, fecha, estado);
             solicitud.setItems(items);
 
             solicitudes.add(solicitud);
 
-            txtNumero.setText("");
-            txtCantidad.setText("");
-            showMessage("Solicitud guardada exitosamente.");
-
         } catch (NumberFormatException ex) {
-            showMessage("Cantidad inválida.");
         }
     }
 
+
+    private void calcularTotal() {
+        try {
+            int index = choiceProducto.getSelectedIndex();
+            if (index < 0 || index >= productosDisponibles.size()) {
+                showMessage("Seleccione un producto válido.");
+                return;
+            }
+
+            double cantidad = Double.parseDouble(txtCantidad.getText().trim());
+            Producto producto = productosDisponibles.get(index);
+
+            double precio = producto.getPrecio();
+            double iva = producto.getValor().getIva();
+            double descuento = producto.getValor().getDescuento();
+
+            double subtotal = precio * cantidad;
+            double montoIva = subtotal * iva;
+            double montoDescuento = subtotal * descuento;
+            double total = subtotal + montoIva - montoDescuento;
+
+            showMessage("Total de la compra: $" + String.format("%.2f", total));
+        } catch (NumberFormatException ex) {
+            showMessage("Ingrese una cantidad válida.");
+        }
+    }
+
+
     private void showMessage(String mensaje) {
         Dialog dialog = new Dialog(this, "Mensaje", true);
-        dialog.setLayout(new FlowLayout());
-        dialog.setSize(300, 100);
-        dialog.add(new Label(mensaje));
-        Button btnCerrar = new Button("Cerrar");
-        btnCerrar.addActionListener(e -> dialog.dispose());
-        dialog.add(btnCerrar);
+        dialog.setLayout(new BorderLayout());
+        dialog.setSize(300, 120);
         dialog.setLocationRelativeTo(this);
+
+        Label label = new Label(mensaje, Label.CENTER);
+        dialog.add(label, BorderLayout.CENTER);
+
+        Button ok = new Button("Aceptar");
+        ok.addActionListener(e -> dialog.dispose());
+        Panel panel = new Panel();
+        panel.add(ok);
+        dialog.add(panel, BorderLayout.SOUTH);
+
         dialog.setVisible(true);
     }
 }

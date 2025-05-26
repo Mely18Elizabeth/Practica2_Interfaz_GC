@@ -17,11 +17,12 @@ public class RegistroProv extends Frame {
 
     public RegistroProv(List<Proveedor> proveedores) {
         this.proveedores = proveedores;
+        setBackground(new Color(239, 234, 221));
 
         setTitle("Registro de Proveedores");
         setSize(400, 500);
         setLocationRelativeTo(null);
-        setLayout(new GridLayout(10, 2, 5, 5));
+        setLayout(new GridLayout(9, 2, 5, 5));
 
         add(new Label("ID:"));
         txtId = new TextField();
@@ -64,6 +65,9 @@ public class RegistroProv extends Frame {
         btnGuardar.addActionListener(e -> guardarProveedor());
         btnListar.addActionListener(e -> listarProveedores());
 
+        btnBuscar.setBackground(new Color(193, 186, 172));
+        btnGuardar.setBackground(new Color(193, 186, 172));
+        btnListar.setBackground(new Color(193, 186, 172));
         setVisible(true);
 
         addWindowListener(new WindowAdapter() {
@@ -89,10 +93,8 @@ public class RegistroProv extends Frame {
             Proveedor proveedor = new Proveedor(id, nombre, apellido, correo, java.util.Collections.singletonList(direccion));
             proveedores.add(proveedor);
 
-            // No limpiar campos según tu pedido
 
         } catch (NumberFormatException e) {
-            // Puedes mostrar mensaje de error si quieres
         }
     }
 

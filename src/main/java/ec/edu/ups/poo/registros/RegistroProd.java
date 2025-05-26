@@ -39,11 +39,11 @@ public class RegistroProd extends Frame {
         txtPrecio = new TextField();
         add(txtPrecio);
 
-        add(new Label("IVA (%):"));
+        add(new Label("IVA:"));
         txtIva = new TextField();
         add(txtIva);
 
-        add(new Label("Descuento (%):"));
+        add(new Label("Descuento:"));
         txtDescuento = new TextField();
         add(txtDescuento);
 

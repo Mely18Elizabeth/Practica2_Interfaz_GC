@@ -1,12 +1,8 @@
 package ec.edu.ups.poo;
-
 import ec.edu.ups.poo.clases.*;
 import ec.edu.ups.poo.registros.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -34,12 +30,15 @@ public class VentanaGes extends Frame {
 
         panelGeneral = new Panel(new BorderLayout());
 
+        panelGeneral.setBackground(new Color(223, 208, 184));
+
         panelPrincipalSuperior = new Panel(new FlowLayout(FlowLayout.CENTER));
         Titulo1 = new Label("Gestión de Compras");
         Titulo1.setFont(new Font("Arial", Font.BOLD, 18));
         panelPrincipalSuperior.add(Titulo1);
 
         panelPrincipalInter = new Panel(new FlowLayout(FlowLayout.CENTER, 50, 20));
+
         BtnEmpleado = new Button("Empleado");
         BtnProducto = new Button("Producto");
         BtnSolicitud = new Button("Solicitud");
@@ -51,6 +50,11 @@ public class VentanaGes extends Frame {
         BtnProducto.setPreferredSize(botonGrande);
         BtnSolicitud.setPreferredSize(botonGrande);
         BtnProvedor.setPreferredSize(botonGrande);
+
+        BtnEmpleado.setBackground(new Color(225, 219, 204));
+        BtnProducto.setBackground(new Color(225, 219, 204));
+        BtnSolicitud.setBackground(new Color(225, 219, 204));
+        BtnProvedor.setBackground(new Color(225, 219, 204));
 
         BtnEmpleado.addActionListener(new ActionListener() {
             @Override

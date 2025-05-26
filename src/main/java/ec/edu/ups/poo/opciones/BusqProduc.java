@@ -15,7 +15,7 @@ public class BusqProduc extends Frame {
 
     public BusqProduc(List<Producto> productos) {
         this.productos = productos;
-
+        setBackground(new Color(188, 204, 220));
         setTitle("Buscar Producto");
         setSize(400, 300);
         setLayout(new BorderLayout(5,5));
@@ -33,7 +33,7 @@ public class BusqProduc extends Frame {
         areaResultados = new TextArea();
         areaResultados.setEditable(false);
         add(areaResultados, BorderLayout.CENTER);
-
+        btnBuscar.setBackground(new Color(204, 196, 184));
         btnBuscar.addActionListener(e -> buscarProducto());
 
         addWindowListener(new WindowAdapter() {
@@ -51,7 +51,7 @@ public class BusqProduc extends Frame {
         areaResultados.setText("");
 
         if (criterio.isEmpty()) {
-            areaResultados.setText("Ingrese un código o nombre para buscar.");
+            areaResultados.setText("Ingrese un código o nombre ");
             return;
         }
 
@@ -64,7 +64,7 @@ public class BusqProduc extends Frame {
             }
         }
         if (!encontrado) {
-            areaResultados.setText("No se encontraron productos para: " + criterio);
+            areaResultados.setText("No se encontro: " + criterio);
         }
     }
 }

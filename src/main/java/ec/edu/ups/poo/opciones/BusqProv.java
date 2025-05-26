@@ -9,46 +9,35 @@ import java.util.List;
 
 public class BusqProv extends Frame {
 
+    private TextField txtId;
+    private Button btnBuscar;
+    private TextArea areaResultado;
+    private List<Proveedor> proveedores;
+
     public BusqProv(List<Proveedor> proveedores) {
+        this.proveedores = proveedores;
+        setBackground(new Color(188, 204, 220));
         setTitle("Buscar Proveedor por ID");
-        setSize(350, 200);
-        setLayout(new GridLayout(3, 1));
+        setSize(400, 300);
+        setLayout(new BorderLayout(5, 5));
+        setLocationRelativeTo(null);
 
-        Panel panelInput = new Panel(new FlowLayout());
-        panelInput.add(new Label("ID del Proveedor:"));
-        TextField txtId = new TextField(10);
-        panelInput.add(txtId);
+        Panel panelTop = new Panel(new FlowLayout());
+        panelTop.add(new Label("ID del Proveedor:"));
+        txtId = new TextField(10);
+        panelTop.add(txtId);
+        btnBuscar = new Button("Buscar");
+        btnBuscar.setBackground(new Color(204, 196, 184));
+        panelTop.add(btnBuscar);
 
-        TextArea resultado = new TextArea(3, 40);
-        resultado.setEditable(false);
+        add(panelTop, BorderLayout.NORTH);
 
-        Button btnBuscar = new Button("Buscar");
-        btnBuscar.addActionListener(e -> {
-            try {
-                int id = Integer.parseInt(txtId.getText().trim());
-                boolean encontrado = false;
+        areaResultado = new TextArea();
+        areaResultado.setEditable(false);
+        add(areaResultado, BorderLayout.CENTER);
+        btnBuscar.setBackground(new Color(204, 196, 184));
 
-                for (Proveedor p : proveedores) {
-                    if (p.getId() == id) {
-                        resultado.setText(p.toString());
-                        encontrado = true;
-                        break;
-                    }
-                }
-
-                if (!encontrado) {
-                    resultado.setText("Proveedor con ID " + id + " no encontrado.");
-                }
-            } catch (NumberFormatException ex) {
-                resultado.setText("ID inválido. Ingrese un número entero.");
-            }
-        });
-
-        add(panelInput);
-        add(btnBuscar);
-        add(resultado);
-
-        setVisible(true);
+        btnBuscar.addActionListener(e -> buscarProveedor());
 
         addWindowListener(new WindowAdapter() {
             @Override
@@ -56,5 +45,30 @@ public class BusqProv extends Frame {
                 dispose();
             }
         });
+
+        setVisible(true);
+    }
+
+    private void buscarProveedor() {
+        areaResultado.setText("");
+        try {
+            int id = Integer.parseInt(txtId.getText().trim());
+            boolean encontrado = false;
+
+            for (Proveedor p : proveedores) {
+                if (p.getId() == id) {
+                    areaResultado.setText(p.toString());
+                    encontrado = true;
+                    break;
+                }
+            }
+
+            if (!encontrado) {
+                areaResultado.setText("No encontrado" + id );
+            }
+
+        } catch (NumberFormatException ex) {
+            areaResultado.setText("ID inválido");
+        }
     }
 }

@@ -1,10 +1,7 @@
 package ec.edu.ups.poo.registros;
-
 import ec.edu.ups.poo.Enums.Rol;
-import ec.edu.ups.poo.opciones.BusqEmpleado;
-import ec.edu.ups.poo.opciones.ListaEmp;
+import ec.edu.ups.poo.opciones.*;
 import ec.edu.ups.poo.clases.*;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Collections;
@@ -12,7 +9,6 @@ import java.util.List;
 
 public class RegistroEmp extends Frame {
     private List<Empleado> empleados;
-
     private TextField txtId, txtNombre, txtApellido, txtCorreo;
     private Choice chDepartamento;
     private TextField txtCallePrincipal, txtCalleSecundaria, txtCiudad;
@@ -20,11 +16,11 @@ public class RegistroEmp extends Frame {
 
     public RegistroEmp(List<Empleado> empleados) {
         this.empleados = empleados;
-
+        setBackground(new Color(239, 234, 221));
         setTitle("Registro de Empleados");
-        setSize(400, 650);
+        setSize(450, 500);
         setLocationRelativeTo(null);
-        setLayout(new GridLayout(13, 2, 5, 5));
+        setLayout(new GridLayout(11, 2, 5, 5));
 
         add(new Label("ID:"));
         txtId = new TextField();
@@ -74,6 +70,10 @@ public class RegistroEmp extends Frame {
 
         btnListar.addActionListener(e -> new ListaEmp(empleados));
         btnBuscar.addActionListener(e -> new BusqEmpleado(empleados));
+
+        btnBuscar.setBackground(new Color(193, 186, 172));
+        btnListar.setBackground(new Color(193, 186, 172));
+        btnGuardar.setBackground(new Color(193, 186, 172));
 
         setVisible(true);
 

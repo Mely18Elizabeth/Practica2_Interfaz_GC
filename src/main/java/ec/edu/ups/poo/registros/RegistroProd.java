@@ -17,7 +17,7 @@ public class RegistroProd extends Frame {
 
     public RegistroProd(List<Producto> productos) {
         this.productos = productos;
-
+        setBackground(new Color(239, 234, 221));
         setTitle("Registro de Productos");
         setSize(400, 400);
         setLayout(new GridLayout(8, 2, 5, 5));
@@ -60,6 +60,9 @@ public class RegistroProd extends Frame {
         btnGuardar.addActionListener(e -> guardarProducto());
         btnListar.addActionListener(e -> new ListaProd(productos));
 
+        btnBuscar.setBackground(new Color(193, 186, 172));
+        btnGuardar.setBackground(new Color(193, 186, 172));
+        btnListar.setBackground(new Color(193, 186, 172));
         setVisible(true);
 
         addWindowListener(new WindowAdapter() {
@@ -86,17 +89,22 @@ public class RegistroProd extends Frame {
 
         try {
             iva = Double.parseDouble(txtIva.getText().trim());
+            if (iva > 1) iva = iva / 100.0;
         } catch (NumberFormatException e) {
+            iva = 0.0;
         }
 
         try {
             descuento = Double.parseDouble(txtDescuento.getText().trim());
+            if (descuento > 1) descuento = descuento / 100.0;
         } catch (NumberFormatException e) {
+            descuento = 0.0;
         }
 
         ValorProducto valor = new ValorProducto(iva, descuento);
         Producto producto = new Producto(codigo, nombre, descripcion, precio, valor);
         productos.add(producto);
     }
+
 
 }

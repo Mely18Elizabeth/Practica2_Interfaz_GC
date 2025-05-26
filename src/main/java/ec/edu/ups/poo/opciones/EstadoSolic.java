@@ -2,7 +2,6 @@ package ec.edu.ups.poo.opciones;
 
 import ec.edu.ups.poo.clases.Solicitud;
 import ec.edu.ups.poo.Enums.Estado;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
@@ -17,13 +16,13 @@ public class EstadoSolic extends Frame {
 
     public EstadoSolic(List<Solicitud> solicitudes) {
         this.solicitudes = solicitudes;
+        setBackground(new Color(188, 204, 220));
 
         setTitle("Buscar y Cambiar Estado de Solicitud");
         setSize(400, 300);
         setLayout(new BorderLayout(10, 10));
         setLocationRelativeTo(null);
 
-        // Panel superior para búsqueda
         Panel panelTop = new Panel(new FlowLayout());
         panelTop.add(new Label("Número de Solicitud:"));
         txtNumero = new TextField(20);
@@ -33,17 +32,14 @@ public class EstadoSolic extends Frame {
 
         add(panelTop, BorderLayout.NORTH);
 
-        // Área para mostrar info de la solicitud
         areaInfo = new TextArea();
         areaInfo.setEditable(false);
         add(areaInfo, BorderLayout.CENTER);
 
-        // Panel inferior para botones de cambio de estado
         Panel panelBottom = new Panel(new FlowLayout());
         btnAprobar = new Button("Aprobar");
         btnRechazar = new Button("Rechazar");
 
-        // Inicialmente deshabilitados hasta que se encuentre la solicitud
         btnAprobar.setEnabled(false);
         btnRechazar.setEnabled(false);
 
@@ -52,7 +48,7 @@ public class EstadoSolic extends Frame {
 
         add(panelBottom, BorderLayout.SOUTH);
 
-        // Eventos
+        btnBuscar.setBackground(new Color(204, 196, 184));
         btnBuscar.addActionListener(e -> buscarSolicitud());
         btnAprobar.addActionListener(e -> cambiarEstado(Estado.Aprobado));
         btnRechazar.addActionListener(e -> cambiarEstado(Estado.Rechazado));
@@ -100,7 +96,6 @@ public class EstadoSolic extends Frame {
         if (solicitudEncontrada != null) {
             solicitudEncontrada.setEstado(nuevoEstado);
             areaInfo.setText("Estado cambiado a: " + nuevoEstado + "\n\n" + solicitudEncontrada.toString());
-            // Opcional: deshabilitar botones después del cambio para evitar repetidos cambios accidentales
             btnAprobar.setEnabled(false);
             btnRechazar.setEnabled(false);
         }
